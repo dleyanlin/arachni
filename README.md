@@ -7,7 +7,7 @@ It is **really** far from being production-ready and it'll be a wonder if it doe
 immediately blow up in your face.
 
 Also, this codebase is **very** outdated because due to the massive rewrites and
-imcompatibilities work has continued in private, so don't even bother testing it or
+incompatibilities work has continued in private, so don't even bother testing it or
 reporting issues.
 
 ## How to run the code
