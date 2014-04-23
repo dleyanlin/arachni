@@ -6,6 +6,10 @@ This branch is used for development, testing and integration of features for the
 It is **really** far from being production-ready and it'll be a wonder if it doesn't
 immediately blow up in your face.
 
+Also, this codebase is **very** outdated because due to the massive rewrites and
+imcompatibilities work has continued in private, so don't even bother testing it or
+reporting issues.
+
 ## How to run the code
 
 First of, setup a [development environment](https://github.com/Arachni/arachni/wiki/Development-environment).
