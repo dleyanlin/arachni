@@ -20,7 +20,7 @@ require_relative 'options'
 module Arachni
 
 lib = Options.paths.lib
-puts lib
+
 require lib + 'version'
 require lib + 'ruby'
 require lib + 'error'
