@@ -45,6 +45,7 @@ class Arachni::Checks::CSRF < Arachni::Check::Base
 
         # request page without cookies, simulating a logged-out user
         http.get( page.url, cookies: {}, no_cookie_jar: true ) do |res|
+            csrf_url(page.url,res)
             # extract forms from the body of the response
             logged_out = forms_from_response( res ).reject { |f| f.inputs.empty? }
 
@@ -123,6 +124,29 @@ class Arachni::Checks::CSRF < Arachni::Check::Base
         end
 
         false
+    end
+
+    #check url like delete add action etc..
+    def csrf_url(url,res)
+       return if audited?(url)
+       #add for check special URL include token
+       ["delete","upload","add","edit"].each { |item|
+          if url.downcase.include?(item)
+            print_status "Found #{url} of have above action."
+             found_token = csrf_token?(url)
+             if !found_token
+                #log( vector: url )
+                page = res.is_a?( Page ) ? res : res.to_page
+
+                log_issue(
+                   vector: Element::Server.new( page.url ),
+                   page:   page
+                 )
+               print_ok "Found unprotected at '#{url}'" 
+               audited(url)
+             end
+          end
+        }
     end
 
     def _log( form )
