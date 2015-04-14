@@ -60,7 +60,7 @@ class Arachni::Plugins::AutoLogin < Arachni::Plugin::Base
             @errored = true
             return
         end
-
+        
         cookies = http.cookies.inject({}){ |h, c| h.merge!( c.simple ) }
 
         register_results(

@@ -263,9 +263,11 @@ class Session
 
         bool = nil
         http.get( Options.session.check_url, http_options ) do |response|
+            #puts Options.session.check_url
             bool = !!response.body.match( Options.session.check_pattern )
             block.call( bool ) if block
         end
+        puts "logged_in? #{bool}"
         bool
     end
 

@@ -76,7 +76,7 @@ class Arachni::Checks::XssScriptContext < Arachni::Check::Base
 
     def run
         with_browser_cluster do |cluster|
-            audit taints( cluster ), self.class.options, &method(:check_and_log)
+          audit taints( cluster ), self.class.options, &method(:check_and_log)
         end
     end
 
@@ -85,8 +85,9 @@ class Arachni::Checks::XssScriptContext < Arachni::Check::Base
         # this also serves as a rudimentary check for really simple cases.
         return if !(proof = tainted?( response, element.seed ))
 
-        if proof.is_a? String
-            return log vector: element, proof: element.seed, response: response
+        #if proof.is_a? String
+        if proof
+           return log vector: element, proof: element.seed, response: response
         end
 
         print_info 'Response is tainted, scheduling a taint-trace.'
