@@ -76,10 +76,10 @@ Gem::Specification.new do |s|
     s.add_dependency 'pony',              '1.8'
 
     # Printing complex objects.
-    s.add_dependency 'awesome_print',     '~> 1.2.0'
+    s.add_dependency 'awesome_print',     '~> 1.2.0',:require => 'ap'
 
     # JSON reporter.
-    s.add_dependency 'json',              '~> 1.8.1'
+    s.add_dependency 'json',              '~> 1.8.2'
 
     # For the Arachni console (arachni_console).
     s.add_dependency 'rb-readline',       '0.5.1'
