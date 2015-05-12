@@ -272,7 +272,7 @@ class Session
             bool = !!response.body.match( Options.session.check_pattern )
             block.call( bool ) if block
         end
-        puts "logged_in? #{bool}"
+        puts "Is logged_in? #{bool}"
         bool
     end
 
