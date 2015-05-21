@@ -326,7 +326,6 @@ module Auditor
             Platform::Manager[vector.action] << platform if Options.fingerprint?
             platform_type = Platform::Manager[vector.action].find_type( platform )
         end
-
         log_issue(options.merge(
             platform_name: platform,
             platform_type: platform_type,
