@@ -265,7 +265,7 @@ class Session
     #   If no login-check has been configured.
     def logged_in?( http_options = {}, &block )
         fail Error::NoLoginCheck if !has_login_check?
-
+        print_debug 'Start call the func.'
         http_options = http_options.merge(
             mode:            block_given? ? :async : :sync,
             follow_location: true,
