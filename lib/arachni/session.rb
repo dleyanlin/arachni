@@ -279,7 +279,7 @@ class Session
             #puts Options.session.check_url
             bool = !!response.body.match( Options.session.check_pattern )
 
-            print_debug "Login check done: #{bool}"
+            print_debug "Login check done: #{bool}\n#{response}"
             block.call( bool ) if block
         end
         puts "Is be logged_in? #{bool}"
