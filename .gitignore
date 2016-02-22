@@ -13,7 +13,11 @@ TODO
 .rvmrc
 coverage/
 .env
+<<<<<<< HEAD
 .tags
 .tags_sorted_by_file
 .yardopts
 .tags1
+=======
+.bundle/
+>>>>>>> upstream/master
