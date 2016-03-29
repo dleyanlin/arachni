@@ -21,9 +21,13 @@ class Arachni::Checks::EnumerationIssue < Arachni::Check::Base
             ["recording","OKOKOK","status:","FAILCode","OTHER"].each {|item|
                 if res.body.include?(item)
                     page = res.is_a?( Page ) ? res : res.to_page
-                    log(vector: Element::Path.new( page.url ), page: page )
+                    log(
+                         vector: Element::Path.new( page.url ),
+                         proof:  page.response.status_line,
+                         page: page
+                         )
                     print_ok( "Found issue at #{url}" )
-					audited(url)
+					          audited(url)
                 end
             }
         end
