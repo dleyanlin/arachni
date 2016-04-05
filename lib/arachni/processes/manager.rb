@@ -17,6 +17,7 @@ module Processes
 # @author Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
 class Manager
     include Singleton
+    include Arachni::UI::Output
 
     RUNNER = "#{File.dirname( __FILE__ )}/executables/base.rb"
 
@@ -157,8 +158,9 @@ class Manager
         # considered local, in this case though they're necessary to provide
         # the same environment the processes.
         options[:options][:paths] = Options.paths.to_h
-
+        options[:options][:scope].delete(:exclude_file_extensions)
         executable      = "#{Options.paths.executables}/#{executable}.rb"
+        #$logger.debug "jose process::manager.spawn options #{options}"
         encoded_options = Base64.strict_encode64( Marshal.dump( options ) )
         argv            = [executable, encoded_options]
 
@@ -166,6 +168,7 @@ class Manager
         # and child share the same RAM due to copy-on-write support on Ruby 2.0.0.
         # It is, however, not available when running on Windows nor JRuby so
         # have a fallback ready.
+        #$logger.debug "jose process::manager.spawn fork #{fork}"
         if fork && Process.respond_to?( :fork )
             pid = Process.fork do
                 $stdin = spawn_options[:in] if spawn_options[:in]
@@ -181,7 +184,6 @@ class Manager
                 elsif discard_output?
                     $stderr.reopen( Arachni.null_device, 'w' )
                 end
-
                 # Careful, Framework.reset will remove objects from Data
                 # structures which off-load to disk, those files however belong
                 # to our parent and should not be touched, thus, we remove
@@ -197,6 +199,7 @@ class Manager
                 ARGV.replace( argv )
                 load RUNNER
             end
+            $logger.debug "jose process::manager.spawn pid #{pid}"
         else
             # It's very, **VERY** important that we use this argument format as
             # it bypasses the OS shell and we can thus count on a 1-to-1 process
@@ -206,10 +209,16 @@ class Manager
                 RUNNER,
                 *(argv + [spawn_options])
             )
+            argv = *(argv + [spawn_options])
+            #$logger.debug "joe RUNNER #{RUNNER}"
+            #$logger.debug "joe argv #{argv}"
+            #$logger.debug "jose process::manager.spawn another pid #{pid}"
+            #$logger.debug "jose process::manager.spawn spawn_options #{spawn_options[:out]}"
         end
 
         self << pid
         pid
+        $logger.debug "jose process::manager.spawn three pid #{pid}"
     end
 
     def self.method_missing( sym, *args, &block )

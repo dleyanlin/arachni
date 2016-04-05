@@ -22,6 +22,7 @@ end
 executable = $options[:executable]
 port       = $options[:port]
 proxy_url  = $options[:proxy_url]
+puts "joe in browser executable's value #{executable}"
 
 process = ChildProcess.build(
     executable,
@@ -38,6 +39,9 @@ process = ChildProcess.build(
 
     '--disk-cache=true'
 )
+
+puts "joe in browser process's value #{process}"
+
 
 handle_exit = proc do
     next if @called

@@ -1,6 +1,6 @@
 require 'base64'
 
-$options = Marshal.load( Base64.strict_decode64( ARGV.pop ) )
+$options = Marshal.load( Base64.strict_decode64(ARGV.pop ) )
 
 if !$options[:without_arachni]
     require 'arachni'

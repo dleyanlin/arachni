@@ -66,15 +66,15 @@ module Arachni
                 long_name  = ' ' * max_path
 
                 lfn_size = Win32API.new(
-                    "kernel32", 
+                    "kernel32",
                     "GetLongPathName",
                     ['P','P','L'],
                     'L'
                 ).call( short_name, long_name, max_path )
 
-                (1..max_path).include?( lfn_size ) ? 
+                (1..max_path).include?( lfn_size ) ?
                     long_name[0..lfn_size-1] : short_name
-            end 
+            end
         else
             def get_long_win32_filename( short_name )
                 short_name
@@ -101,3 +101,8 @@ if !Arachni.constants.include?( :UI )
 end
 
 require_relative 'arachni/framework'
+
+require 'logger'
+
+$logger = Logger.new(STDOUT)
+$logger.level = Logger::WARN
