@@ -1329,7 +1329,7 @@ class Browser
 
                     @browser_pid = output.scan( /^PID: (\d+)/ ).flatten.first.to_i
                     print_debug "jose @browser_pid is: #{@browser_pid}"
-                    $logger.debug "jose @browser_pid is: #{@browser_pid}"
+                    $logger.debug "@browser_pid is: #{@browser_pid}"
 
                     print_debug 'Boot-up complete.'
                     $logger.debug 'Boot-up complete.'
