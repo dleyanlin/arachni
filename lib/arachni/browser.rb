@@ -1137,7 +1137,6 @@ class Browser
         end
 
         r = get_response( u )
-        #print_debug "The response's code is: #{r}"
 
         return r if r && r.code != 504
 
@@ -1839,6 +1838,7 @@ EOJS
     end
 
     def save_response( response )
+        print_debug "save response....."
         synchronize do
             notify_on_response response
             return response if !response.text?
@@ -1848,7 +1848,6 @@ EOJS
     end
 
     def get_response( url )
-        print_debug "Get Response....of #{url}"
         synchronize do
             # Order is important, #normalize_url by can get confused and remove
             # everything after ';' by treating it as a path parameter.
