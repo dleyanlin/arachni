@@ -160,7 +160,7 @@ class Manager
         options[:options][:paths] = Options.paths.to_h
         options[:options][:scope].delete(:exclude_file_extensions)
         executable      = "#{Options.paths.executables}/#{executable}.rb"
-        #$logger.debug "process::manager.spawn options #{options}"
+        print_debug "process::manager.spawn options #{options}"
         encoded_options = Base64.strict_encode64( Marshal.dump( options ) )
         argv            = [executable, encoded_options]
 
@@ -168,7 +168,6 @@ class Manager
         # and child share the same RAM due to copy-on-write support on Ruby 2.0.0.
         # It is, however, not available when running on Windows nor JRuby so
         # have a fallback ready.
-        #$logger.debug " process::manager.spawn fork #{fork}"
         if fork && Process.respond_to?( :fork )
             pid = Process.fork do
                 $stdin = spawn_options[:in] if spawn_options[:in]
@@ -199,7 +198,7 @@ class Manager
                 ARGV.replace( argv )
                 load RUNNER
             end
-            $logger.debug " process::manager.spawn pid #{pid}"
+            print_debug " process::manager.spawn pid #{pid}"
         else
             # It's very, **VERY** important that we use this argument format as
             # it bypasses the OS shell and we can thus count on a 1-to-1 process
@@ -210,15 +209,11 @@ class Manager
                 *(argv + [spawn_options])
             )
             argv = *(argv + [spawn_options])
-            #$logger.debug " RUNNER #{RUNNER}"
-            #$logger.debug " argv #{argv}"
-            #$logger.debug " process::manager.spawn another pid #{pid}"
-            #$logger.debug " process::manager.spawn spawn_options #{spawn_options[:out]}"
         end
 
         self << pid
         pid
-        $logger.debug " process::manager.spawn three pid #{pid}"
+        print_debug " process::manager.spawn three pid #{pid}"
     end
 
     def self.method_missing( sym, *args, &block )

@@ -101,8 +101,3 @@ if !Arachni.constants.include?( :UI )
 end
 
 require_relative 'arachni/framework'
-
-require 'logger'
-
-$logger = Logger.new(STDOUT)
-$logger.level = Logger::WARN

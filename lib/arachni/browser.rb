@@ -1124,6 +1124,7 @@ class Browser
 
     def response
         u = dom_url
+        print_debug "The dom url value is: #{dom_url}"
 
         if dom_url == 'about:blank'
             print_debug 'Blank page.'
@@ -1136,6 +1137,7 @@ class Browser
         end
 
         r = get_response( u )
+        #print_debug "The response's code is: #{r}"
 
         return r if r && r.code != 504
 
@@ -1275,7 +1277,7 @@ class Browser
         return @browser_url if @browser_url
 
         print_debug 'Spawning PhantomJS...'
-        $logger.debug 'Spawning PhantomJS...'
+
         ChildProcess.posix_spawn = true
 
         port   = nil
@@ -1288,12 +1290,10 @@ class Browser
             port   = Utilities.available_port
 
             print_debug "Attempt ##{i}, chose port number #{port}"
-            $logger.debug "Attempt ##{i}, chose port number #{port}"
 
             begin
                 with_timeout 10 do
                     print_debug "Spawning process: #{self.class.executable}"
-                    $logger.debug "Spawning process: #{self.class.executable}"
                     r, w  = IO.pipe
                     ri, @kill_process = IO.pipe
 
@@ -1312,8 +1312,7 @@ class Browser
 
                     w.close
                     ri.close
-                    $logger.debug "@lifeline_pid's value #{@lifeline_pid}"
-                    $logger.debug 'Process spawned, waiting for it to boot-up...'
+                    print_debug "@lifeline_pid's value #{@lifeline_pid}"
                     print_debug 'Process spawned, waiting for it to boot-up...'
 
                     # Wait for PhantomJS to initialize.
@@ -1329,30 +1328,24 @@ class Browser
 
                     @browser_pid = output.scan( /^PID: (\d+)/ ).flatten.first.to_i
                     print_debug "jose @browser_pid is: #{@browser_pid}"
-                    $logger.debug "@browser_pid is: #{@browser_pid}"
 
                     print_debug 'Boot-up complete.'
-                    $logger.debug 'Boot-up complete.'
                     done = true
                 end
             rescue Timeout::Error
                 print_debug 'Spawn timed-out.'
-                $logger.debug 'Spawn timed-out.'
             end
 
             if !output.empty?
                 print_debug "output is #{output}"
-                #$logger.debug "output is #{output}"
             end
 
             if done
                 print_debug 'PhantomJS is ready.'
-                $logger.debug 'PhantomJS is ready.'
                 break
             end
 
             print_debug 'Killing process.'
-            $logger.debug 'Killing process.'
             kill_process
         end
 
@@ -1855,6 +1848,7 @@ EOJS
     end
 
     def get_response( url )
+        print_debug "Get Response....of #{url}"
         synchronize do
             # Order is important, #normalize_url by can get confused and remove
             # everything after ';' by treating it as a path parameter.
