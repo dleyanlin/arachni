@@ -1124,8 +1124,7 @@ class Browser
 
     def response
         u = dom_url
-        print_debug "The dom url value is: #{dom_url}"
-
+        
         if dom_url == 'about:blank'
             print_debug 'Blank page.'
             return
