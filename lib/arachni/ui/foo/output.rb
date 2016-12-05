@@ -52,46 +52,7 @@ module Output
     end
 
     reset_output_options
-=begin
-    # @param    [String]    logfile
-    #   Location of the error log file.
-    def set_error_logfile( logfile )
-        @@error_logfile = logfile
-    end
 
-    # @return  [String]
-    #   Location of the error log file.
-    def error_logfile
-        @@error_logfile
-    end
-
-    def has_error_log?
-        File.exist? error_logfile
-    end
-
-    def error_log_fd
-        return @@error_fd if @@error_fd
-
-        @@error_fd = File.open( error_logfile, 'a' )
-        @@error_fd.sync = true
-
-        Kernel.at_exit do
-            begin
-                @@error_fd.close if @@error_fd
-            rescue IOError
-            end
-        end
-
-        @@error_fd
-
-    # Errno::EMFILE (too many open files) or something, nothing we can do
-    # about it except catch it to avoid a crash.
-    rescue SystemCallError => e
-        print_bad "[#{e.class}] #{e}"
-        e.backtrace.each { |line| print_bad line }
-        nil
-    end
-=end
     # Prints and logs an error message.
     #
     # @param    [String]    str
@@ -111,53 +72,6 @@ module Output
         print_error "[#{e.class}] #{e}"
         print_error_backtrace( e )
     end
-=begin
-    # Logs an error message to the error log file.
-    #
-    # @param    [String]    str
-    def log_error( str = '' )
-        return if !error_log_fd
-
-        if !@@error_log_written_env
-            @@error_log_written_env = true
-
-            ['', "#{Time.now} " + ( '-' * 80 )].each do |s|
-                error_log_fd.puts s
-                @@error_buffer << s
-            end
-
-            begin
-                h = {}
-                ENV.each { |k, v| h[k] = v }
-
-                options = Arachni::Options.to_rpc_data
-                if options['http']['authentication_username']
-                    options['http']['authentication_username'] = '*****'
-                    options['http']['authentication_password'] =
-                        options['http']['authentication_username']
-                end
-                options = options.to_yaml
-
-                ['ENV:', h.to_yaml, '-' * 80, 'OPTIONS:', options].each do |s|
-                    error_log_fd.puts s
-                    @@error_buffer += s.split("\n")
-                end
-            rescue
-            end
-
-            error_log_fd.puts '-' * 80
-            @@error_buffer << '-' * 80
-        end
-
-        t = "[#{Time.now}]"
-        @@error_buffer << "#{t} #{str}"
-        print_color( t, 31, str, error_log_fd, true )
-    end
-
-    def error_buffer
-        @@error_buffer
-    end
-=end
     # Used to draw attention to a bad situation which isn't an error.
     #
     # @param    [String]    str
