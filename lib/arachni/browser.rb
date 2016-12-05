@@ -1287,11 +1287,11 @@ class Browser
             done   = false
             port   = Utilities.available_port
 
-            print_debug "Attempt ##{i}, chose port number #{port}"
+            print_info "Attempt ##{i}, chose port number #{port}"
 
             begin
                 with_timeout 10 do
-                    print_debug "Spawning process: #{self.class.executable}"
+                    print_info "Spawning process: #{self.class.executable}"
                     r, w  = IO.pipe
                     ri, @kill_process = IO.pipe
 
@@ -1308,9 +1308,9 @@ class Browser
                         proxy_url: @proxy.url
                     )
 
+                    print_info "@lifeline_pid's value #{@lifeline_pid}"
                     w.close
                     ri.close
-                    print_debug "@lifeline_pid's value #{@lifeline_pid}"
                     print_debug 'Process spawned, waiting for it to boot-up...'
 
                     # Wait for PhantomJS to initialize.

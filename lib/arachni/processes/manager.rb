@@ -198,7 +198,7 @@ class Manager
                 ARGV.replace( argv )
                 load RUNNER
             end
-            print_debug " process::manager.spawn pid #{pid}"
+            print_info " process::manager.spawn pid #{pid}"
         else
             # It's very, **VERY** important that we use this argument format as
             # it bypasses the OS shell and we can thus count on a 1-to-1 process
@@ -213,7 +213,7 @@ class Manager
 
         self << pid
         pid
-        print_debug " process::manager.spawn three pid #{pid}"
+        print_info " process::manager.spawn three pid #{pid}"
     end
 
     def self.method_missing( sym, *args, &block )
