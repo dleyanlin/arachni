@@ -1308,7 +1308,7 @@ class Browser
                         proxy_url: @proxy.url
                     )
 
-                    print_info "@lifeline_pid's value #{@lifeline_pid}"
+                    print_debug "@lifeline_pid's value #{@lifeline_pid}"
                     w.close
                     ri.close
                     print_debug 'Process spawned, waiting for it to boot-up...'
