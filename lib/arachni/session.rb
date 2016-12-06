@@ -298,7 +298,7 @@ class Session
 
             block.call( bool ) if block
         end
-        print_debug "Is be logged_in? #{bool}"
+        print_info "Is be logged_in? #{bool}"
         bool
     end
 
