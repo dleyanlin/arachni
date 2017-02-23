@@ -179,15 +179,15 @@ module Audit
             while !has_audit_workload? && wait_for_browser_cluster?
                 if show_workload_msg
                     print_line
-                    print_status 'Workload exhausted, waiting for new pages' <<
-                                     ' from the browser-cluster...'
+                    print_status "Workload exhausted #{has_audit_workload?} && #{wait_for_browser_cluster?}, waiting for new pages" <<
+                                     " from the browser-cluster..."
                 end
                 show_workload_msg = false
 
                 last_pending_jobs ||= 0
                 pending_jobs = browser_cluster.pending_job_counter
                 if pending_jobs != last_pending_jobs
-                    browser_cluster.print_info "Pending jobs: #{pending_jobs}"
+                    browser_cluster.print_info "Pending jobs: #{pending_jobs} and #{last_pending_jobs}"
                 end
                 last_pending_jobs = pending_jobs
 
