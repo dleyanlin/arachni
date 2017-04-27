@@ -52,6 +52,8 @@ class Arachni::Plugins::AutoLogin < Arachni::Plugin::Base
         end
 
         print_status "Form submitted successfully, checking the session's validity."
+        print_debug "Response URL value is...#{response.url}."
+        print_debug "Check pattern paramter is...#{@verifier}."
 
         framework.options.session.check_url     ||= response.url
         framework.options.session.check_pattern ||= @verifier
@@ -64,7 +66,7 @@ class Arachni::Plugins::AutoLogin < Arachni::Plugin::Base
             handle_error( :check_failed )
             return
         end
-        
+
         cookies = http.cookies.inject({}){ |h, c| h.merge!( c.simple ) }
 
         register_results(
